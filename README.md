@@ -4,6 +4,10 @@ Newsletter-Skill is a Codex skill for collecting China-related coverage from sub
 
 The skill is designed for weekday morning and afternoon editions. It uses the user's authenticated Chrome session, verifies articles on the original publisher pages, merges reports about the same event, and preserves the source links used for every briefing item.
 
+## Customization and forks
+
+The media websites and news categories covered by this skill were selected for the author's requirements. Users are welcome to customize the source list, topic taxonomy, schedule, output format, and other instructions to fit their own workflows. Forks and community adaptations are welcome.
+
 ## What it does
 
 - Visits Financial Times, The Wall Street Journal, The Economist, and Bloomberg in a fixed serial order.
