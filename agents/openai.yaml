@@ -1,0 +1,4 @@
+interface:
+  display_name: "Newsletter Skill"
+  short_description: "Build a China-news HTML briefing"
+  default_prompt: "Use $newsletter-skill to create the current China-news HTML briefing."

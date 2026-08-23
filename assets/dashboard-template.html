@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{EDITION_TITLE}}</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #647084;
+      --paper: #f4f1e9;
+      --card: #fffdf8;
+      --line: #d9d4c8;
+      --navy: #173c5e;
+      --gold: #b48a3c;
+      --green: #2f7359;
+      --warning: #8a4d18;
+      --shadow: 0 16px 42px rgba(36, 45, 57, .09);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(180, 138, 60, .12), transparent 32rem),
+        linear-gradient(180deg, #f8f5ee 0%, var(--paper) 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.68;
+    }
+
+    a { color: var(--navy); }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0 72px;
+    }
+
+    .masthead {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 6vw, 60px);
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 26px;
+      color: #fff;
+      background: linear-gradient(135deg, #142f49 0%, #1c4a6c 64%, #986f2c 135%);
+      box-shadow: var(--shadow);
+    }
+
+    .masthead::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -70px;
+      top: -110px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 50%;
+      box-shadow: 0 0 0 38px rgba(255, 255, 255, .04), 0 0 0 76px rgba(255, 255, 255, .03);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #e4c98f;
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      margin: 0;
+      max-width: 780px;
+      font-family: Georgia, "Songti SC", "STSong", serif;
+      font-size: clamp(2rem, 5vw, 4.25rem);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+    }
+
+    .dek {
+      position: relative;
+      max-width: 780px;
+      margin: 18px 0 0;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      padding: 15px 17px;
+      border: 1px solid rgba(255, 255, 255, .17);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(8px);
+    }
+
+    .stat span { display: block; color: rgba(255, 255, 255, .63); font-size: .74rem; }
+    .stat strong { display: block; margin-top: 4px; font-size: 1rem; }
+
+    .warning {
+      margin: 20px 0 0;
+      padding: 14px 16px;
+      border: 1px solid #e4b77c;
+      border-radius: 12px;
+      color: #633711;
+      background: #fff1d9;
+    }
+
+    .panel {
+      margin-top: 22px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 253, 248, .88);
+      box-shadow: 0 10px 30px rgba(38, 44, 52, .05);
+    }
+
+    .panel h2, .section-title h2 {
+      margin: 0;
+      font-family: Georgia, "Songti SC", "STSong", serif;
+      font-size: 1.45rem;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .source-status {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .source-status strong, .source-status span { display: block; }
+    .source-status span { margin-top: 3px; color: var(--muted); font-size: .82rem; }
+    .source-status[data-state="完成"] em,
+    .source-status[data-state="无符合项"] em { color: var(--green); }
+    .source-status[data-state="部分完成"] em,
+    .source-status[data-state="访问受限"] em { color: var(--warning); }
+    .source-status em { font-style: normal; font-weight: 750; }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .toc a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      color: var(--ink);
+      background: #fff;
+      text-decoration: none;
+    }
+
+    .toc b {
+      display: inline-grid;
+      min-width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--navy);
+    }
+
+    .news-section { margin-top: 40px; scroll-margin-top: 24px; }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .section-title span { color: var(--muted); font-size: .85rem; }
+
+    .article-card {
+      margin-top: 16px;
+      padding: clamp(20px, 4vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: 0 8px 26px rgba(35, 43, 53, .05);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--navy);
+      font-size: .74rem;
+      font-weight: 700;
+    }
+
+    .chip.topic { color: #664810; background: #f1e0b7; }
+
+    .article-card h3 {
+      margin: 0;
+      font-family: Georgia, "Songti SC", "STSong", serif;
+      font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+      line-height: 1.35;
+    }
+
+    .summary { margin: 15px 0 0; }
+
+    .links {
+      margin: 16px 0 0;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+      font-size: .88rem;
+    }
+
+    .links a { margin-right: 14px; word-break: break-all; }
+
+    .uncertainty {
+      margin-top: 14px;
+      padding: 11px 13px;
+      border-left: 3px solid var(--gold);
+      color: #694c19;
+      background: #fbf3df;
+      font-size: .88rem;
+    }
+
+    .empty {
+      margin-top: 16px;
+      padding: 24px;
+      border: 1px dashed #b9b2a5;
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 255, 255, .45);
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    @media (max-width: 760px) {
+      .stats, .source-grid, .toc { grid-template-columns: 1fr 1fr; }
+      .page { width: min(100% - 20px, 1120px); padding-top: 10px; }
+      .masthead { border-radius: 0 0 22px 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats, .source-grid, .toc { grid-template-columns: 1fr; }
+      .section-title { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <p class="eyebrow">China News Monitor · {{EDITION_LABEL}}</p>
+      <h1>{{EDITION_TITLE}}</h1>
+      <p class="dek">仅汇总已实际打开并核验的订阅媒体报道，不加入背景分析。</p>
+      <div class="stats">
+        <div class="stat"><span>覆盖时段</span><strong>{{COVERAGE_WINDOW}}</strong></div>
+        <div class="stat"><span>生成时间</span><strong>{{GENERATED_AT}}</strong></div>
+        <div class="stat"><span>新闻条目</span><strong>{{TOTAL_COUNT}} 篇</strong></div>
+      </div>
+    </header>
+
+    {{PARTIAL_WARNING_OR_EMPTY}}
+
+    <section class="panel" aria-labelledby="coverage-heading">
+      <h2 id="coverage-heading">来源覆盖</h2>
+      <div class="source-grid">
+        <div class="source-status" data-state="{{FT_STATE}}"><strong>FT</strong><em>{{FT_STATE}}</em><span>{{FT_NOTE}}</span></div>
+        <div class="source-status" data-state="{{WSJ_STATE}}"><strong>WSJ</strong><em>{{WSJ_STATE}}</em><span>{{WSJ_NOTE}}</span></div>
+        <div class="source-status" data-state="{{ECONOMIST_STATE}}"><strong>经济学人</strong><em>{{ECONOMIST_STATE}}</em><span>{{ECONOMIST_NOTE}}</span></div>
+        <div class="source-status" data-state="{{BLOOMBERG_STATE}}"><strong>彭博</strong><em>{{BLOOMBERG_STATE}}</em><span>{{BLOOMBERG_NOTE}}</span></div>
+      </div>
+    </section>
+
+    <nav class="panel" aria-labelledby="toc-heading">
+      <h2 id="toc-heading">目录</h2>
+      <div class="toc">
+        <a href="#us-china"><span>中美关系</span><b>{{US_CHINA_COUNT}}</b></a>
+        <a href="#macro"><span>宏观经济</span><b>{{MACRO_COUNT}}</b></a>
+        <a href="#industry"><span>产业</span><b>{{INDUSTRY_COUNT}}</b></a>
+        <a href="#capital"><span>资本市场</span><b>{{CAPITAL_COUNT}}</b></a>
+      </div>
+    </nav>
+
+    <section class="news-section" id="us-china">
+      <div class="section-title"><h2>一、中美关系</h2><span>{{US_CHINA_COUNT}} 篇</span></div>
+      {{US_CHINA_ITEMS_OR_EMPTY}}
+    </section>
+
+    <section class="news-section" id="macro">
+      <div class="section-title"><h2>二、宏观经济</h2><span>{{MACRO_COUNT}} 篇</span></div>
+      {{MACRO_ITEMS_OR_EMPTY}}
+    </section>
+
+    <section class="news-section" id="industry">
+      <div class="section-title"><h2>三、产业</h2><span>{{INDUSTRY_COUNT}} 篇</span></div>
+      {{INDUSTRY_ITEMS_OR_EMPTY}}
+    </section>
+
+    <section class="news-section" id="capital">
+      <div class="section-title"><h2>四、资本市场</h2><span>{{CAPITAL_COUNT}} 篇</span></div>
+      {{CAPITAL_ITEMS_OR_EMPTY}}
+    </section>
+
+    <!-- Repeat this block inside the matching category and remove this sample block from the finished report. -->
+    <template id="article-card-template">
+      <article class="article-card">
+        <div class="meta"><span class="chip">{{ITEM_SOURCES}}</span><span class="chip topic">{{ITEM_TOPIC}}</span></div>
+        <h3>【{{ITEM_SOURCES}}（{{ITEM_TOPIC}}）】：{{ITEM_TITLE_ZH}}</h3>
+        <p class="summary">{{ITEM_SUMMARY_100_TO_200_ZH_CHARS}}</p>
+        <p class="links"><strong>新闻链接：</strong> {{ITEM_LABELED_LINKS}}</p>
+        {{ITEM_UNCERTAINTY_OR_EMPTY}}
+      </article>
+    </template>
+
+    <footer>
+      本看板仅概括所列媒体在指定时段内已核验的报道；媒体观点不代表汇编者观点。生成于 {{GENERATED_AT}}。
+    </footer>
+  </main>
+</body>
+</html>
