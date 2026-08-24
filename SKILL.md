@@ -51,6 +51,7 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
    - Show the edition, exact coverage window, generation time, item counts, and per-source coverage status.
    - Keep the HTML self-contained and responsive: inline CSS, no external scripts, fonts, trackers, or remote assets.
    - Save timestamped reports under `/Users/solinzhang/Documents/Newsletter-Reports/` as `china-news-YYYYMMDD-HHMM.html`, and update `latest.html` with the same finished content.
+   - Before saving, compare the edition and exact coverage window with existing reports. If the same dashboard is being revised, overwrite the previous matching report in place and overwrite `latest.html`; do not create or retain a parallel superseded version. Create a new timestamped file only for a different edition or coverage window.
    - Return clickable absolute links to both files. A desktop shortcut may point to `latest.html`, but the recurring task must write only inside the configured workspace.
 
 ## Failure and completion rules

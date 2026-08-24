@@ -131,6 +131,7 @@ The example defines tone and structure only. Never reuse its claims unless that 
 ## Dashboard contract
 
 - Start with a title, edition, exact interval, generated-at time, and total count.
+- When revising the same edition (same edition date and exact coverage interval), overwrite the existing matching dashboard file and `latest.html` in place. Do not create or retain parallel superseded versions; create a new report file only for a different edition or coverage interval.
 - Show a source-coverage panel for FT, WSJ, 经济学人, and 彭博.
 - Generate a linked directory in this order: 中美关系、宏观经济、产业、资本市场.
 - Show category and item counts even when zero.
