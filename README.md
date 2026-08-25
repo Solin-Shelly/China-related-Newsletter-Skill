@@ -2,7 +2,7 @@
 
 Newsletter-Skill is a Codex skill for collecting China-related coverage from subscribed international media and producing a source-linked Chinese HTML briefing.
 
-The skill is designed for weekday morning and afternoon editions. It uses the user's authenticated Chrome session, verifies articles on the original publisher pages, merges reports about the same event, and preserves the source links used for every briefing item.
+The skill is designed for weekday morning and afternoon editions. It uses the user's authenticated ego-lite browser session, verifies articles on the original publisher pages, merges reports about the same event, and preserves the source links used for every briefing item.
 
 ## Customization and forks
 
@@ -32,7 +32,7 @@ The recurring schedule is configured by the Codex automation that invokes this s
 
 ## Sources
 
-| Publisher | Direct start URL | Required route |
+| Publisher | Direct start URL | Required ego-lite route |
 | --- | --- | --- |
 | Financial Times (FT) | <https://www.ft.com/china> | Open the direct URL and inspect the China page |
 | Wall Street Journal (WSJ) | <https://www.wsj.com/world/china?mod=nav_top_subsection> | Open the direct URL and inspect the China page |
@@ -79,9 +79,9 @@ The dashboard must:
 
 ## Browser and access behavior
 
-- Use only visible pages in the user's authenticated Chrome session. Never inspect or export cookies, passwords, local storage, or subscription settings.
-- If an anti-bot or human-verification challenge appears, stop immediately, do not retry or bypass it, notify the user, and wait for manual verification.
-- If the first direct navigation fails for another reason, pause and tell the user the publisher, exact URL, and visible problem. The user may manually open the URL in Chrome; after confirmation, the skill takes over the existing tab and resumes without repeating completed publishers.
+- Use the `ego-browser` skill and only visible pages in the user's authenticated ego-lite task space. Never inspect or export cookies, passwords, local storage, or subscription settings.
+- If an anti-bot or human-verification challenge appears, stop immediately, do not retry or bypass it, hand off the ego-lite task space, notify the user, and wait for explicit confirmation after manual verification in ego-lite. Then take over the same task space and resume.
+- If the first direct navigation fails for another reason, pause and tell the user the publisher, exact URL, and visible problem. Hand off the ego-lite task space so the user can manually open the URL in ego-lite; after explicit confirmation, take over the same task space and existing tab, then resume without repeating completed publishers.
 - Each publisher receives at most one manual-opening handoff. If takeover still fails, record `访问受限` or `部分完成`, explain why, and continue without looping.
 - Bloomberg pagination is complete only after `Load more` has been clicked one step at a time and a visible item predates the window start. If pagination stops early, Bloomberg is marked `部分完成`.
 - Do not use search snippets, aggregators, or unverified headlines to fill gaps.

@@ -1,6 +1,6 @@
 ---
 name: newsletter-skill
-description: Gather and summarize China-related coverage from FT, WSJ, The Economist, and Bloomberg through the user's authenticated Chrome session, merge reporting on the same event, and create a source-linked Chinese HTML briefing. Use for the weekday 09:00 or 15:00 newsletter editions and for manual runs of the same workflow. Do not use for general news research or summaries based only on search snippets.
+description: Gather and summarize China-related coverage from FT, WSJ, The Economist, and Bloomberg through the user's authenticated ego-lite browser session, merge reporting on the same event, and create a source-linked Chinese HTML briefing. Use for the weekday 09:00 or 15:00 newsletter editions and for manual runs of the same workflow. Do not use for general news research or summaries based only on search snippets.
 ---
 
 # Newsletter Skill
@@ -11,7 +11,7 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
 
 - Read [references/newsletter-spec.md](references/newsletter-spec.md) before collecting articles. It is the source of truth for editions, media routes, topic scope, merging, and wording.
 - Use [assets/dashboard-template.html](assets/dashboard-template.html) as the output layout. Replace every `{{...}}` marker and remove all template-only sample blocks before delivery.
-- Use the Chrome control skill because the workflow depends on the user's existing subscription sessions. Never inspect, export, or expose cookies, passwords, local storage, or other credentials.
+- Use the `ego-browser` skill and its ego-lite task space for all publisher navigation, interaction, and extraction because the workflow depends on the user's existing subscription sessions. Never inspect, export, or expose cookies, passwords, local storage, or other credentials.
 
 ## Workflow
 
@@ -22,13 +22,13 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
    - For a manual run, use an explicitly requested edition or time window. If neither is supplied, choose the most recently completed scheduled window and state it in the dashboard.
    - Convert each original publication timestamp to Asia/Shanghai before applying the half-open interval `[start, end)`. Do not use an updated timestamp in place of the original publication time.
 
-2. Discover candidates in Chrome, one publisher at a time, in this exact order: FT, WSJ, The Economist, then Bloomberg.
+2. Discover candidates in ego-lite, one publisher at a time, in this exact order: FT, WSJ, The Economist, then Bloomberg.
    - Start directly from the prescribed source URL; do not navigate through a site's menus to reach the listing.
    - Finish checking and recording one publisher before opening the next. Reuse the current tab where practical and close article tabs after recording verified details; do not keep all four publisher sites open at once.
    - Continue pagination or lazy loading until entries are older than the window start; do not stop after the first screen.
    - On Bloomberg, repeatedly click the `Load more` button one time at a time and wait for new entries after each click. Continue until at least one visible entry predates the window start; the initial screen alone does not count as a complete check.
    - Open every plausible candidate and verify its full article, canonical URL, headline, source, and original publication time.
-   - Do not substitute web search, another browser, an aggregator, or a snippet when subscribed content cannot be opened in Chrome.
+   - Do not substitute web search, Chrome, another browser, an aggregator, or a snippet when subscribed content cannot be opened in ego-lite.
 
 3. Filter and classify.
    - Include only articles whose substantive focus matches the topic taxonomy, not incidental mentions of China.
@@ -56,9 +56,9 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
 
 ## Failure and completion rules
 
-- If any page shows an anti-bot or human-verification challenge, including a CAPTCHA, "verify you are human" prompt, automated-traffic warning, or browser challenge, stop all browsing immediately. Do not reload, retry, bypass the challenge, or continue to another source. Notify the user in the same task with the affected publisher and page, ask them to complete the verification in Chrome, and wait for confirmation. After confirmation, resume from the blocked source without repeating already completed sources. This rule overrides the normal initial-access handoff below.
-- If the initial direct navigation to a publisher fails for a reason other than an anti-bot challenge—including a blank or error page, timeout, unavailable page, sign-in or subscription gate, or Chrome navigation failure—stop the browsing sequence immediately. Tell the user the publisher, exact direct URL, and visible problem; ask them to open that URL manually in their authenticated Chrome and confirm when the page is ready. Do not repeatedly reload, use an alternate route, switch browsers, or continue to the next publisher while waiting.
-- After the user confirms, take over the already-open Chrome tab without navigating away first and resume from the blocked publisher. Preserve verified work from completed publishers.
+- If any page shows an anti-bot or human-verification challenge, including a CAPTCHA, "verify you are human" prompt, automated-traffic warning, or browser challenge, stop all browsing immediately. Do not reload, retry, bypass the challenge, or continue to another source. Hand off the ego-lite task space to the user, notify them in the same task with the affected publisher and page, ask them to complete the verification in ego-lite, and wait for confirmation. After explicit confirmation, take over the same task space and resume from the blocked source without repeating already completed sources. This rule overrides the normal initial-access handoff below.
+- If the initial direct navigation to a publisher fails for a reason other than an anti-bot challenge—including a blank or error page, timeout, unavailable page, sign-in or subscription gate, or ego-lite navigation failure—stop the browsing sequence immediately. Tell the user the publisher, exact direct URL, and visible problem; hand off the ego-lite task space and ask them to open that URL manually in their authenticated ego-lite browser and confirm when the page is ready. Do not repeatedly reload, use an alternate route, switch browsers, or continue to the next publisher while waiting.
+- After explicit confirmation, take over the same ego-lite task space and already-open tab without navigating away first, then resume from the blocked publisher. Preserve verified work from completed publishers.
 - Allow one manual-opening handoff per publisher. If the page remains unavailable after takeover, mark the publisher `访问受限` (or `部分完成` if some content was verified), state the exact reason, continue with the remaining publishers, and do not loop on repeated handoffs.
 - If Bloomberg's `Load more` button disappears, becomes disabled, or stops adding entries before the listing reaches the window start, mark Bloomberg `部分完成` and state the exact stopping condition in the coverage notes.
 - If one source fails, produce a clearly labeled partial dashboard from verified sources and list the failed source in the coverage status. Never describe a partial run as complete.
