@@ -24,9 +24,9 @@ All times use Asia/Shanghai (UTC+8).
 
 | Edition | Scheduled time | Coverage interval |
 | --- | --- | --- |
-| Monday morning | Monday 09:00 | Previous Friday 15:00 inclusive to Monday 09:00 exclusive (66 hours; includes Saturday and Sunday) |
-| Tuesday–Friday morning | Weekdays 09:00 | Previous day 15:00 inclusive to the current day 09:00 exclusive (18 hours) |
-| Afternoon | Weekdays 15:00 | Current day 09:00 inclusive to 15:00 exclusive (6 hours) |
+| Monday morning | Monday 09:00 | Previous Friday 15:00 exclusive to Monday 09:00 exclusive (66 hours; includes Saturday and Sunday) |
+| Tuesday–Friday morning | Weekdays 09:00 | Previous day 15:00 exclusive to the current day 09:00 exclusive (18 hours) |
+| Afternoon | Weekdays 15:00 | Current day 09:00 inclusive to 15:00 inclusive (6 hours) |
 
 The recurring schedule is configured by the Codex automation that invokes this skill. Manual runs may provide an explicit edition or time window.
 
@@ -84,7 +84,7 @@ The dashboard must:
 - If an anti-bot or human-verification challenge appears, stop immediately, do not retry or bypass it, hand off the ego-lite task space, notify the user, and wait for explicit confirmation after manual verification in ego-lite. Then take over the same task space and resume.
 - If the first direct navigation fails for another reason, pause and tell the user the publisher, exact URL, and visible problem. Hand off the ego-lite task space so the user can manually open the URL in ego-lite; after explicit confirmation, take over the same task space and existing tab, then resume without repeating completed publishers.
 - Each publisher receives at most one manual-opening handoff. If takeover still fails, record `访问受限` or `部分完成`, explain why, and continue without looping.
-- Bloomberg pagination is complete only after `Load more` has been clicked one step at a time and a visible item predates the window start. If pagination stops early, Bloomberg is marked `部分完成`.
+- Bloomberg pagination is complete only after `Load more` has been clicked one step at a time and a visible item predates the window start. If a click has no response or adds no visible entries before the boundary, pause and hand off the ego-lite task space so the user can operate `Load more` or restore the page; after confirmation, take over the same task space and continue. Do not skip Bloomberg or generate the dashboard until its boundary check is complete.
 - Do not use search snippets, aggregators, or unverified headlines to fill gaps.
 
 ## Installation

@@ -6,11 +6,11 @@ Use Asia/Shanghai (UTC+8) throughout.
 
 | Edition | Scheduled time | Coverage interval |
 | --- | --- | --- |
-| 周一上午版 | Monday 09:00 | Previous Friday 15:00 inclusive to Monday 09:00 exclusive (66 hours); includes all Saturday and Sunday reporting |
-| 周二至周五上午版 | Tuesday–Friday 09:00 | Previous calendar day 15:00 inclusive to current day 09:00 exclusive (18 hours) |
-| 下午版 | Weekdays 15:00 | Current day 09:00 inclusive to 15:00 exclusive (6 hours) |
+| 周一上午版 | Monday 09:00 | Previous Friday 15:00 exclusive to Monday 09:00 exclusive (66 hours); includes all Saturday and Sunday reporting |
+| 周二至周五上午版 | Tuesday–Friday 09:00 | Previous calendar day 15:00 exclusive to current day 09:00 exclusive (18 hours) |
+| 下午版 | Weekdays 15:00 | Current day 09:00 inclusive to 15:00 inclusive (6 hours) |
 
-Use the article's original publication time. If only a date is visible or the original time cannot be verified, exclude the item from the main briefing and list it under access or verification notes.
+Use the article's original publication time. Morning editions exclude both interval endpoints; afternoon editions include both endpoints. If only a date is visible or the original time cannot be verified, exclude the item from the main briefing and list it under access or verification notes.
 
 ## Sources and navigation
 
@@ -25,7 +25,7 @@ Visit publishers serially in this exact order: **FT → WSJ → 经济学人 →
 
 If the first direct attempt to open a publisher fails for a reason other than an anti-bot challenge—including a blank or error page, timeout, unavailable page, sign-in or subscription gate, or ego-lite navigation failure—pause the entire browsing sequence. Immediately tell the user the publisher, exact direct URL, and visible problem, hand off the ego-lite task space, and ask them to open that URL manually in their already authenticated ego-lite browser and confirm when it is ready. Do not repeatedly reload, navigate through menus, switch browsers, or continue to the next publisher. After explicit confirmation, take over the same task space and currently open ego-lite tab without navigating away first and resume at that publisher; do not repeat completed publishers. Permit one such handoff per publisher. If takeover still does not provide access, record `访问受限` (or `部分完成` when some content was verified), state the reason, continue with the remaining publishers, and do not request the same handoff repeatedly.
 
-For Bloomberg, use `Load more` to extend the listing before treating source coverage as complete. Click once, wait until additional entries appear, then repeat; do not use a fixed number of clicks. Stop only after at least one visible entry has an original publication time earlier than the current window start. If the button disappears, is disabled, or a completed click adds no new entries before reaching that boundary, record Bloomberg as `部分完成` and describe the stopping condition. An anti-bot challenge still triggers the immediate-stop rule below.
+For Bloomberg, use `Load more` to extend the listing before treating source coverage as complete. Click once, wait until additional entries appear, then repeat; do not use a fixed number of clicks. Stop only after at least one visible entry has an original publication time earlier than the current window start. If a click produces no response or no new visible entries, or the button disappears or is disabled before reaching that boundary, pause at Bloomberg and do not mark it `部分完成`, skip it, continue to another source, or generate the dashboard. Hand off the ego-lite task space to the user, ask them to operate `Load more` or restore the page, and wait for explicit confirmation; then take over the same task space and resume from Bloomberg. If it still does not respond, remain paused and ask the user again. Generate the dashboard only after the Bloomberg boundary check is complete. An anti-bot challenge still triggers the immediate-stop rule below.
 
 If an anti-bot or human-verification challenge appears at any point, stop browsing immediately and do not retry, bypass it, or continue to another publisher. Hand off the ego-lite task space, notify the user in the same task, identify the affected publisher and page, request manual verification in ego-lite, and wait for the user's explicit confirmation before taking over the same task space and resuming from that publisher. Already completed publishers do not need to be revisited. This immediate-verification rule takes priority over the initial-access handoff above.
 

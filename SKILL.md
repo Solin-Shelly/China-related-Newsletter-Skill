@@ -16,17 +16,17 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
 ## Workflow
 
 1. Establish the edition and exact Asia/Shanghai coverage window.
-   - Monday morning edition at 09:00: from the preceding Friday at 15:00 inclusive to Monday at 09:00 exclusive (66 hours), covering all Saturday and Sunday reporting without leaving a gap after Friday's afternoon edition.
-   - Tuesday–Friday morning editions at 09:00: from 15:00 the prior day inclusive to 09:00 the current day exclusive (18 hours).
-   - Afternoon edition at 15:00: the preceding 6 hours, from 09:00 inclusive to 15:00 exclusive.
+   - Monday morning edition at 09:00: from the preceding Friday at 15:00 exclusive to Monday at 09:00 exclusive (66 hours), covering all Saturday and Sunday reporting without leaving a gap after Friday's afternoon edition.
+   - Tuesday–Friday morning editions at 09:00: from 15:00 the prior day exclusive to 09:00 the current day exclusive (18 hours).
+   - Afternoon edition at 15:00: from 09:00 inclusive to 15:00 inclusive (6 hours).
    - For a manual run, use an explicitly requested edition or time window. If neither is supplied, choose the most recently completed scheduled window and state it in the dashboard.
-   - Convert each original publication timestamp to Asia/Shanghai before applying the half-open interval `[start, end)`. Do not use an updated timestamp in place of the original publication time.
+   - Convert each original publication timestamp to Asia/Shanghai before applying the edition-specific boundaries above. Morning editions exclude both endpoints; afternoon editions include both endpoints. Do not use an updated timestamp in place of the original publication time.
 
 2. Discover candidates in ego-lite, one publisher at a time, in this exact order: FT, WSJ, The Economist, then Bloomberg.
    - Start directly from the prescribed source URL; do not navigate through a site's menus to reach the listing.
    - Finish checking and recording one publisher before opening the next. Reuse the current tab where practical and close article tabs after recording verified details; do not keep all four publisher sites open at once.
    - Continue pagination or lazy loading until entries are older than the window start; do not stop after the first screen.
-   - On Bloomberg, repeatedly click the `Load more` button one time at a time and wait for new entries after each click. Continue until at least one visible entry predates the window start; the initial screen alone does not count as a complete check.
+   - On Bloomberg, repeatedly click the `Load more` button one time at a time and wait for new entries after each click. Continue until at least one visible entry predates the window start; the initial screen alone does not count as a complete check. If a click produces no response or no new visible entries before that boundary, pause at Bloomberg, hand off the ego-lite task space to the user, and do not continue to other sources or generate the dashboard. After explicit confirmation, take over the same task space and resume from Bloomberg; generate the dashboard only after the Bloomberg boundary check is completed.
    - Open every plausible candidate and verify its full article, canonical URL, headline, source, and original publication time.
    - Do not substitute web search, Chrome, another browser, an aggregator, or a snippet when subscribed content cannot be opened in ego-lite.
 
@@ -60,7 +60,7 @@ Create a Chinese HTML briefing from articles that were actually opened and verif
 - If the initial direct navigation to a publisher fails for a reason other than an anti-bot challenge—including a blank or error page, timeout, unavailable page, sign-in or subscription gate, or ego-lite navigation failure—stop the browsing sequence immediately. Tell the user the publisher, exact direct URL, and visible problem; hand off the ego-lite task space and ask them to open that URL manually in their authenticated ego-lite browser and confirm when the page is ready. Do not repeatedly reload, use an alternate route, switch browsers, or continue to the next publisher while waiting.
 - After explicit confirmation, take over the same ego-lite task space and already-open tab without navigating away first, then resume from the blocked publisher. Preserve verified work from completed publishers.
 - Allow one manual-opening handoff per publisher. If the page remains unavailable after takeover, mark the publisher `访问受限` (or `部分完成` if some content was verified), state the exact reason, continue with the remaining publishers, and do not loop on repeated handoffs.
-- If Bloomberg's `Load more` button disappears, becomes disabled, or stops adding entries before the listing reaches the window start, mark Bloomberg `部分完成` and state the exact stopping condition in the coverage notes.
+- If a Bloomberg `Load more` click produces no response or no new visible entries before the listing reaches the window start, or the button disappears or becomes disabled before that boundary, do not mark Bloomberg `部分完成`, skip it, continue to another source, or generate a partial dashboard. Hand off the ego-lite task space and ask the user to operate `Load more` or restore the page; after explicit confirmation, take over the same task space and resume from Bloomberg. If it still does not respond, remain paused and ask the user again. Generate the dashboard only after Bloomberg reaches the time-window boundary.
 - If one source fails, produce a clearly labeled partial dashboard from verified sources and list the failed source in the coverage status. Never describe a partial run as complete.
 - If no qualifying articles exist, still create the dashboard with zero counts and a clear `本时段无符合条件的新闻` message.
 - Completion requires all four source routes to be checked through the start of the time window, every included article to have been opened, all links to be present, and no unresolved template markers to remain.
