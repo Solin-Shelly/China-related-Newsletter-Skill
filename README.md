@@ -76,6 +76,7 @@ The dashboard must:
 - Show the edition, exact coverage interval, generation time, total count, category counts, and per-source coverage state.
 - Use inline CSS and no external scripts, fonts, trackers, or remote assets.
 - Be saved as a timestamped report and as `latest.html` under `/Users/solinzhang/Documents/Newsletter-Reports/` in the configured local environment.
+- For repeated runs, the edition key is the calendar date, edition type (morning or afternoon), and exact coverage interval. Re-running the same key replaces its previous report and `latest.html`; morning and afternoon editions remain separate and never overwrite each other.
 
 ## Browser and access behavior
 
